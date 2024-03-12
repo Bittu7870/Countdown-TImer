@@ -1,4 +1,12 @@
-const ShowTImer = ({ handleReset, hours, seconds, minutes }) => {
+const ShowTImer = ({
+  handleReset,
+  hours,
+  seconds,
+  minutes,
+  isPaused,
+  handlePause,
+  handleResumed,
+}) => {
   return (
     <>
       <div className="flex text-center items-center justify-center space-x-12 ">
@@ -19,9 +27,22 @@ const ShowTImer = ({ handleReset, hours, seconds, minutes }) => {
             {seconds < 10 ? `0${seconds}` : seconds}
           </span>
         </div>
-        <button className="bg-blue-600 p-8 rounded-xl text-xl text-white font-bold shadow-sm hover:shadow-xl hover:bg-blue-800">
-          Pause
-        </button>
+        {!isPaused && (
+          <button
+            onClick={handlePause}
+            className="bg-blue-600 p-8 rounded-xl text-xl text-white font-bold shadow-sm hover:shadow-xl hover:bg-blue-800"
+          >
+            Pause
+          </button>
+        )}
+        {isPaused && (
+          <button
+            onClick={handleResumed}
+            className="bg-blue-600 p-8 rounded-xl text-xl text-white font-bold shadow-sm hover:shadow-xl hover:bg-blue-800"
+          >
+            Resume
+          </button>
+        )}
         <button
           className="bg-blue-600 p-8 rounded-xl text-xl text-white font-bold shadow-sm hover:shadow-xl hover:bg-blue-800"
           onClick={handleReset}

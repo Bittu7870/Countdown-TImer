@@ -5,13 +5,19 @@ import InputTimer from "./components/InputTimer";
 
 const App = () => {
   const [isStart, setIsStart] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [timerId, setTimerId] = useState(0);
 
   const handleStart = () => {
-    if (hours < 0 || minutes < 0 || seconds < 0) {
+    if (
+      hours < 0 ||
+      minutes < 0 ||
+      seconds < 0 ||
+      (hours === 0 && minutes === 0 && seconds === 0)
+    ) {
       alert("Invalid Input");
       return;
     }
@@ -19,7 +25,21 @@ const App = () => {
   };
 
   const handleReset = () => {
+    setHours(0);
+    setMinutes(0);
+    setSeconds(0);
+    clearInterval(timerId);
     setIsStart(false);
+  };
+
+  const handlePause = () => {
+    setIsPaused(true);
+    clearInterval(timerId);
+  };
+
+  const handleResumed = () => {
+    setIsPaused(false);
+    runTimer();
   };
 
   const handleInput = (e) => {
@@ -50,8 +70,9 @@ const App = () => {
       setHours(0);
       setMinutes(0);
       setSeconds(0);
-      alert("Timed out");
       clearInterval(timerId);
+      setIsStart(false);
+      alert("Timed out");
       return;
     }
   };
@@ -80,6 +101,9 @@ const App = () => {
           hours={hours}
           minutes={minutes}
           seconds={seconds}
+          isPaused={isPaused}
+          handlePause={handlePause}
+          handleResumed={handleResumed}
         />
       )}
     </>
